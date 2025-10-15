@@ -1,0 +1,48 @@
+[workflows]
+runButton = "Запуск бота"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start application"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start inngest server"
+
+[[workflows.workflow]]
+name = "Start application"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "mastra dev"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "automations"
+
+[[workflows.workflow]]
+name = "Start inngest server"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "./scripts/inngest.sh"
+waitForPort = 3000
+
+[workflows.workflow.metadata]
+outputType = "automations"
+
+[[workflows.workflow]]
+name = "Запуск бота"
+author = 48605798
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python bot.py"
